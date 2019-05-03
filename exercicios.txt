@@ -1,0 +1,53 @@
+#!/usr/bash
+var2=0
+while [ $var2 -eq 0 ]; do
+   echo Informe seu usurio:
+   read usuario
+   echo Buscando informacoes...
+   var2=$(grep -c $usuario lista_usuarios.txt)
+   if [ $var2 -eq 1 ]; then
+        echo "Usuario correto"
+	    if [ $usuario -eq "london" ]; then
+			wget https://github.com/leandersonandre/shell-script/blob/master/london.tar.gz?raw=true
+			tar -xvf london.tar.gz
+		elif [ $usuario -eq "lisbon" ]; then
+			wget https://github.com/leandersonandre/shell-script/blob/master/lisbon.tar.gz?raw=true
+			tar -xvf lisbon.tar.gz
+		elif [ $usuario -eq "newyork" ]; then
+			wget https://github.com/leandersonandre/shell-script/blob/master/newyork.tar.gz?raw=true
+			tar -xvf newyork.tar.gz
+		else 
+			wget https://github.com/leandersonandre/shell-script/blob/master/vienna.tar.gz?raw=true
+			tar -xvf vienna.tar.gz
+		fi
+		
+		echo Baixando dados do usuário…
+		echo Download completo
+		echo Selecione uma opção:
+		echo 1. Ver Saldo
+		echo 2. Ver Extrato
+		echo 3. Sair
+		echo Digite sua opção:
+		read opcao 
+		
+		if [ $opcao -eq "1"]; then
+			cd "${usuario}" 
+			echo "Saldo" 
+			less saldo.txt
+		elif [ $opcao -eq "2"]; then
+			#direcionando para a pasta do nome
+			cd "${usuario}" 
+			echo "Extrato" 
+			less extrato.txt
+		else
+			echo Excluindo arquivos…
+			echo Obg, volte sempre
+			echo Bank Shell!
+			cd ..
+			rm -r "${usuario}"
+		fi
+   else
+        echo "Digite corretamente o usurio"
+   fi
+ 
+done
